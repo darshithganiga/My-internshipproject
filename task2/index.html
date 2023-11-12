@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css"></link>
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <title>Rgistration form</title>
+    <script src="func.js"></script>
+</head>
+<body>
+    <div class="wrapper">
+        <form action="" >
+            <h1>Registration</h1>
+        
+        <div class="input-box">
+            <div class="input-field">
+                <input type="text" placeholder="Full name" required>
+                <i class='bx bxs-user-circle'></i>
+            </div>
+            <div class="input-field">
+                <input type="text" placeholder="User name" required>
+                <i class='bx bxs-user-circle'></i>
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <input type="email" placeholder="Email" required>
+                <i class='bx bxl-gmail'></i>
+            </div>
+            <div class="input-field">
+                <input type="number" placeholder="Phone number" required>
+                <i class='bx bxs-phone-call'></i>
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <input type="Password"  id="Password" placeholder="Password" required>
+                <i class='bx bxs-lock'></i>
+            </div>
+            <div class="input-field">
+                <input type="Password" id="confirmpassword" placeholder="Confirm password" required>
+                <i class='bx bxs-lock'></i>
+            </div>
+        </div>
+        <div class="input-box">
+            <div class="input-field">
+                <input type="text" placeholder="Address" required>
+                <i class='bx bxs-home-circle'></i>
+            </div>
+            <div class="input-field">
+                <input type="number" placeholder="pincode" required>
+                <i class='bx bxs-home-circle'></i>
+            </div>
+        </div>
+        <label><input type="checkbox">I hereby declare that all the information i provided is true as per my knowledge</label>
+
+        <button type="submit" id="Register" class="btn">Register</button>
+        
+
+    </form>
+    
+    </div>
+    <script>
+        document.getElementById('myForm').addEventListener('submit',function(event)
+        {event.preventDefault();
+            var password=document.getElementById('Password').value;
+            var confirmPassword=document.getElementById('confirmpassword').value;
+            if(password!=confirmPassword){
+                alert("passwords do not match.please try again");
+            }
+            else{
+                document.getElementById('Registration').style.display='block';
+            }
+            }
+        );
+            
+        
+    </script>
+</body>
+</html>
