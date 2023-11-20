@@ -1,0 +1,165 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f8f9fa;
+    }
+
+    .container {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ddd;
+      padding: 8px 0;
+    }
+
+    .task-buttons {
+      display: flex;
+      gap: 5px;
+    }
+
+    .complete-task {
+      text-decoration: line-through;
+      color: #888;
+    }
+  </style>
+  <title>To-Do List</title>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1 class="mb-4">To-Do List</h1>
+    <div id="task-container" class="mb-4">
+      <!-- Tasks will be added dynamically here -->
+    </div>
+    <div class="input-group mb-3">
+      <input type="text" id="new-task" class="form-control" placeholder="Add a new task">
+      <div class="input-group-append">
+        <button class="btn btn-success" onclick="addTask()">Add Task</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', loadTasks);
+
+    function addTask() {
+      const taskInput = document.getElementById('new-task');
+      const taskText = taskInput.value.trim();
+
+      if (taskText === '') return;
+
+      const taskContainer = document.getElementById('task-container');
+
+      const taskElement = document.createElement('div');
+      taskElement.classList.add('task');
+
+      const taskTextElement = document.createElement('span');
+      taskTextElement.innerText = taskText;
+
+      const taskButtonsElement = document.createElement('div');
+      taskButtonsElement.classList.add('task-buttons');
+
+      const deleteButton = document.createElement('button');
+      deleteButton.innerText = 'Delete';
+      deleteButton.onclick = deleteTask;
+
+      const completeButton = document.createElement('button');
+      completeButton.innerText = 'Complete';
+      completeButton.onclick = toggleComplete;
+
+      taskButtonsElement.appendChild(completeButton);
+      taskButtonsElement.appendChild(deleteButton);
+
+      taskElement.appendChild(taskTextElement);
+      taskElement.appendChild(taskButtonsElement);
+
+      taskContainer.appendChild(taskElement);
+
+      saveTasks();
+
+      taskInput.value = '';
+    }
+
+    function deleteTask() {
+      const taskElement = this.parentElement.parentElement;
+      taskElement.remove();
+      saveTasks();
+    }
+
+    function toggleComplete() {
+      const taskElement = this.parentElement.parentElement;
+      taskElement.classList.toggle('complete-task');
+      saveTasks();
+    }
+
+    function saveTasks() {
+      const tasks = [];
+      const taskElements = document.querySelectorAll('.task');
+
+      taskElements.forEach(taskElement => {
+        const taskText = taskElement.querySelector('span').innerText;
+        const isComplete = taskElement.classList.contains('complete-task');
+
+        tasks.push({ text: taskText, complete: isComplete });
+      });
+
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+    }
+
+    function loadTasks() {
+      const savedTasks = localStorage.getItem('tasks');
+
+      if (savedTasks) {
+        const tasks = JSON.parse(savedTasks);
+
+        tasks.forEach(task => {
+          const taskContainer = document.getElementById('task-container');
+
+          const taskElement = document.createElement('div');
+          taskElement.classList.add('task');
+          if (task.complete) {
+            taskElement.classList.add('complete-task');
+          }
+
+          const taskTextElement = document.createElement('span');
+          taskTextElement.innerText = task.text;
+
+          const taskButtonsElement = document.createElement('div');
+          taskButtonsElement.classList.add('task-buttons');
+
+          const deleteButton = document.createElement('button');
+          deleteButton.innerText = 'Delete';
+          deleteButton.onclick = deleteTask;
+
+          const completeButton = document.createElement('button');
+          completeButton.innerText = 'Complete';
+          completeButton.onclick = toggleComplete;
+
+          taskButtonsElement.appendChild(completeButton);
+          taskButtonsElement.appendChild(deleteButton);
+
+          taskElement.appendChild(taskTextElement);
+          taskElement.appendChild(taskButtonsElement);
+
+          taskContainer.appendChild(taskElement);
+        });
+      }
+    }
+  </script>
+</body>
+</html>
